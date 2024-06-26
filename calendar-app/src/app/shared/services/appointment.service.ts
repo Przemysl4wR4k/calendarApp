@@ -8,7 +8,8 @@ import { Appointment } from '../models/appointment.model';
 export class AppointmentService {
   private appointments: Appointment[] = [
     { id: 1, title: 'Task Review', start: new Date(new Date().getTime() + 1 * 60 * 1000), end: new Date(new Date().getTime() + 1 * 60 * 60 * 1000 + 1 * 60 * 1000) },
-    { id: 2, title: 'Offer the job to Przemyslaw', start: new Date(new Date().getTime() + 1.5 * 60 * 60 * 1000), end: new Date(new Date().getTime() + 3 * 60 * 60 * 1000 + 1 * 60 * 1000) }
+    { id: 2, title: 'Offer the job to Przemyslaw', start: new Date(new Date().getTime() + 1.5 * 60 * 60 * 1000), end: new Date(new Date().getTime() + 3 * 60 * 60 * 1000 + 1 * 60 * 1000) },
+    { id: 3, title: 'Check out the READ ME file', start: new Date(new Date().getTime() + 4.5 * 60 * 60 * 1000), end: new Date(new Date().getTime() + 6 * 60 * 60 * 1000 + 1 * 60 * 1000) }
   ];
 
   private appointmentsSubject: BehaviorSubject<Appointment[]> = new BehaviorSubject(this.appointments);

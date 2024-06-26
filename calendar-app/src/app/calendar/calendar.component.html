@@ -5,12 +5,15 @@
   <div class="appointments-container">
     <div *ngFor="let hour of hours" class="hour-slot">
       <div class="hour">{{ hour }}:00</div>
-      <div class="appointments">
+      <div class="appointments" cdkDropList (cdkDropListDropped)="drop($event)">
         <div *ngFor="let appointment of filteredAppointments | filterByHour: hour"
              class="appointment"
+             cdkDrag
+             [cdkDragData]="appointment"
              [style.height.%]="calculateHeight(appointment)"
              [style.top.%]="calculateTopPosition(appointment)">
-          {{ appointment.title }}
+          <div class="appointment-title">{{ appointment.title }}</div>
+          <button class="delete-button" (click)="deleteAppointment(appointment.id)">X</button>
         </div>
       </div>
     </div>

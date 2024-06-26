@@ -46,4 +46,15 @@
   overflow: hidden;
   padding: 2px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
 }

@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCardModule } from '@angular/material/card';
-import { AppointmentService } from '../shared/services/appointment.service';
-import { Appointment } from '../shared/models/appointment.model';
-import { Observable } from 'rxjs';
-import { FilterByHourPipe } from '../shared/pipes/filter-by-hour.pipe';
+import { Component, OnInit } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Observable } from 'rxjs';
+import { Appointment } from '../shared/models/appointment.model';
+import { FilterByHourPipe } from '../shared/pipes/filter-by-hour.pipe';
+import { AppointmentService } from '../shared/services/appointment.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, FilterByHourPipe],
+  imports: [CommonModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, FilterByHourPipe, DragDropModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
@@ -61,11 +62,31 @@ export class CalendarComponent implements OnInit {
   calculateHeight(appointment: Appointment): number {
     const startTime = new Date(appointment.start).getTime();
     const endTime = new Date(appointment.end).getTime();
-    const duration = (endTime - startTime) / 60000; // duration in minutes
-    return (duration / 60) * 100; // convert to percentage of an hour slot height
+    const duration = (endTime - startTime) / 60000;
+    return (duration / 60) * 100;
   }
 
   calculateTopPosition(appointment: Appointment): number {
     return (appointment.start.getMinutes() / 60) * 100;
+  }
+
+  drop(event: CdkDragDrop<Appointment[]>) {
+    const appointment: Appointment = event.item.data;
+    
+    const duration = new Date(appointment.end).getTime() - new Date(appointment.start).getTime();
+    appointment.start.setMinutes(appointment.start.getMinutes() + event.distance.y);
+    const newEnd = new Date(appointment.start.getTime() + duration);
+
+    this.appointmentService.updateAppointment({
+      ...appointment,
+      end: newEnd
+    });
+
+    this.filterAppointments();
+  }
+
+  deleteAppointment(id: number) {
+    this.appointmentService.deleteAppointment(id);
+    this.filterAppointments();
   }
 }
