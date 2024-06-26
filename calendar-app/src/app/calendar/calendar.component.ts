@@ -42,8 +42,15 @@ export class CalendarComponent implements OnInit {
   filterAppointments() {
     if (this.selectedDate) {
       this.appointments$.subscribe(appointments => {
-        this.filteredAppointments = appointments.filter(appointment =>
-          new Date(appointment.start).toDateString() === this.selectedDate.toDateString());
+        this.filteredAppointments = appointments.filter(appointment => {
+          const startDate = new Date(appointment.start);
+          const endDate = new Date(appointment.end);
+          const selectedDateStart = new Date(this.selectedDate);
+          selectedDateStart.setHours(0, 0, 0, 0);
+          const selectedDateEnd = new Date(this.selectedDate);
+          selectedDateEnd.setHours(23, 59, 59, 999);
+          return (startDate <= selectedDateEnd && endDate >= selectedDateStart);
+        });
         console.log('Filtered appointments:', this.filteredAppointments);
       });
     } else {
@@ -52,7 +59,13 @@ export class CalendarComponent implements OnInit {
   }
 
   calculateHeight(appointment: Appointment): number {
-    const duration = (new Date(appointment.end).getTime() - new Date(appointment.start).getTime()) / 3600000;
-    return duration * 100;
+    const startTime = new Date(appointment.start).getTime();
+    const endTime = new Date(appointment.end).getTime();
+    const duration = (endTime - startTime) / 60000; // duration in minutes
+    return (duration / 60) * 100; // convert to percentage of an hour slot height
+  }
+
+  calculateTopPosition(appointment: Appointment): number {
+    return (appointment.start.getMinutes() / 60) * 100;
   }
 }
