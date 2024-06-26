@@ -1,1 +1,17 @@
-<p>calendar works!</p>
+<div class="calendar-container">
+  <mat-card class="calendar-card">
+    <mat-calendar [selected]="selectedDate" (selectedChange)="dateChanged($event)"></mat-calendar>
+  </mat-card>
+  <div class="appointments-container">
+    <div *ngFor="let hour of hours" class="hour-slot">
+      <div class="hour">{{ hour }}:00</div>
+      <div class="appointments">
+        <div *ngFor="let appointment of filteredAppointments | filterByHour: hour"
+             class="appointment"
+             [style.height.%]="calculateHeight(appointment)">
+          {{ appointment.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
