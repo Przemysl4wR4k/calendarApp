@@ -41,6 +41,10 @@ export class AppointmentService {
   }
 
   private generateId(): number {
-    return this.appointments.length > 0 ? Math.max(...this.appointments.map(appointment => appointment.id)) + 1 : 1;
+    if (this.appointments.length === 0) {
+      return 1;
+    }
+    const maxId = Math.max(...this.appointments.map(appointment => appointment.id || 0));
+    return maxId + 1;
   }
 }

@@ -1,5 +1,5 @@
 <div class="appointment-form-container">
-    <form [formGroup]="appointmentForm" (ngSubmit)="addAppointment()">
+    <form [formGroup]="appointmentForm" #formDirective="ngForm" (ngSubmit)="addAppointment(formDirective)">
       <mat-form-field appearance="fill">
         <mat-label>Title</mat-label>
         <input matInput formControlName="title" placeholder="Enter title" required>
@@ -34,7 +34,7 @@
         <mat-error *ngIf="appointmentForm.get('endDate')?.hasError('required')">
           End Date is required
         </mat-error>
-        <mat-error *ngIf="appointmentForm.hasError('endBeforeStart')">
+        <mat-error *ngIf="appointmentForm.get('endDate')?.hasError('endBeforeStart')">
           End Date cannot be earlier than Start Date
         </mat-error>
       </mat-form-field>
@@ -45,8 +45,12 @@
         <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('required')">
           End Time is required
         </mat-error>
+        <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('endBeforeStart')">
+          End Time cannot be earlier than Start Time
+        </mat-error>
       </mat-form-field>
   
       <button mat-raised-button color="primary" type="submit" [disabled]="!appointmentForm.valid">Save Appointment</button>
     </form>
   </div>
+  
