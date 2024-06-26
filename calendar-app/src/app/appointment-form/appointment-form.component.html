@@ -1,1 +1,52 @@
-<p>appointment-form works!</p>
+<div class="appointment-form-container">
+    <form [formGroup]="appointmentForm" (ngSubmit)="addAppointment()">
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" placeholder="Enter title" required>
+        <mat-error *ngIf="appointmentForm.get('title')?.hasError('required')">
+          Title is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required>
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-error *ngIf="appointmentForm.get('startDate')?.hasError('required')">
+          Start Date is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Start Time</mat-label>
+        <input matInput type="time" formControlName="startTime" required>
+        <mat-error *ngIf="appointmentForm.get('startTime')?.hasError('required')">
+          Start Time is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required>
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+        <mat-error *ngIf="appointmentForm.get('endDate')?.hasError('required')">
+          End Date is required
+        </mat-error>
+        <mat-error *ngIf="appointmentForm.hasError('endBeforeStart')">
+          End Date cannot be earlier than Start Date
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>End Time</mat-label>
+        <input matInput type="time" formControlName="endTime" required>
+        <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('required')">
+          End Time is required
+        </mat-error>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="!appointmentForm.valid">Save Appointment</button>
+    </form>
+  </div>
