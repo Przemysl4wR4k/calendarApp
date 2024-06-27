@@ -1,4 +1,4 @@
-If you'd like me to implement additional features such as more complex form validation, tooltips, extending the appointment model with an appointment description, or enabling the movement of appointments side by side if they occur at the same time, please let me know.
+If you'd like me to implement additional features such as RWD, more complex form validation, tooltips, extending the appointment model with an appointment description, or enabling the movement of appointments side by side if they occur at the same time, please let me know.
 
 # CalendarApp
 
