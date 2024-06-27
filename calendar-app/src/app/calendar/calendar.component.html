@@ -6,14 +6,16 @@
     <div *ngFor="let hour of hours" class="hour-slot">
       <div class="hour">{{ hour }}:00</div>
       <div class="appointments" cdkDropList (cdkDropListDropped)="drop($event)">
-        <div *ngFor="let appointment of (filteredAppointments$ | async) | filterByHour: hour"
-             class="appointment"
-             cdkDrag
-             [cdkDragData]="appointment"
-             [style.height.%]="calculateHeight(appointment)"
-             [style.top.%]="calculateTopPosition(appointment)">
-          <div class="appointment-title">{{ appointment.title }}</div>
-          <button class="delete-button" (click)="deleteAppointment(appointment.id)">X</button>
+        <div *ngIf="(filteredAppointments$ | async) as appointments">
+          <div *ngFor="let appointment of appointments | filterByHour: hour"
+               class="appointment"
+               cdkDrag
+               [cdkDragData]="appointment"
+               [style.height.%]="calculateHeight(appointment)"
+               [style.top.%]="calculateTopPosition(appointment)">
+            <div class="appointment-title">{{ appointment.title }}</div>
+            <button class="delete-button" (click)="deleteAppointment(appointment.id)">X</button>
+          </div>
         </div>
       </div>
     </div>

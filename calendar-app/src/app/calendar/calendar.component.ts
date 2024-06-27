@@ -33,12 +33,13 @@ export class CalendarComponent {
   calculateHeight(appointment: Appointment): number {
     const startTime = new Date(appointment.start).getTime();
     const endTime = new Date(appointment.end).getTime();
-    const duration = (endTime - startTime) / 60000;
-    return (duration / 60) * 100;
+    const duration = (endTime - startTime) / 60000; // in minutes
+    return (duration / 60) * 100; // percentage height
   }
 
   calculateTopPosition(appointment: Appointment): number {
-    return (appointment.start.getMinutes() / 60) * 100;
+    const startDate = new Date(appointment.start);
+    return (startDate.getHours() * 60 + startDate.getMinutes()) / (24 * 60) * 100;
   }
 
   drop(event: CdkDragDrop<Appointment[]>) {
