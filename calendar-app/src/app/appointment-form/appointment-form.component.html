@@ -10,7 +10,7 @@
   
       <mat-form-field appearance="fill">
         <mat-label>Start Date</mat-label>
-        <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required>
+        <input matInput readonly [matDatepicker]="startDatePicker" formControlName="startDate" required>
         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #startDatePicker></mat-datepicker>
         <mat-error *ngIf="appointmentForm.get('startDate')?.hasError('required')">
@@ -28,7 +28,7 @@
   
       <mat-form-field appearance="fill">
         <mat-label>End Date</mat-label>
-        <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required>
+        <input matInput readonly [matDatepicker]="endDatePicker" formControlName="endDate" required>
         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
         <mat-error *ngIf="appointmentForm.get('endDate')?.hasError('required')">
