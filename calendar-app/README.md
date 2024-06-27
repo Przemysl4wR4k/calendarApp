@@ -1,3 +1,5 @@
+If you'd like me to implement additional features such as more complex form validation, tooltips, extending the appointment model with an appointment description, or enabling the movement of appointments side by side if they occur at the same time, please let me know.
+
 # CalendarApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
