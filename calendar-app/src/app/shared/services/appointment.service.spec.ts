@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppointmentService } from './appointment.service';
 import { Appointment } from '../models/appointment.model';
-import { of } from 'rxjs';
 
 describe('AppointmentService', () => {
   let service: AppointmentService;
@@ -14,8 +13,8 @@ describe('AppointmentService', () => {
       { id: 1, title: 'Task Review', start: new Date(), end: new Date(new Date().getTime() + 60 * 60 * 1000) },
       { id: 2, title: 'Offer the job to Przemyslaw', start: new Date(new Date().getTime() + 1.5 * 60 * 60 * 1000), end: new Date(new Date().getTime() + 3 * 60 * 60 * 1000) }
     ];
-    (service as any).appointments = mockAppointments;
-    (service as any).appointmentsSubject.next(mockAppointments);
+    (service as unknown as { appointments: Appointment[] }).appointments = mockAppointments;
+    (service as unknown as { appointmentsSubject: { next: (appointments: Appointment[]) => void } }).appointmentsSubject.next(mockAppointments);
   });
 
   it('should be created', () => {

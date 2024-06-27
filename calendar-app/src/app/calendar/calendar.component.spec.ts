@@ -7,13 +7,14 @@ import { FilterByHourPipe } from '../shared/pipes/filter-by-hour.pipe';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { Appointment } from '../shared/models/appointment.model';
 
 describe('CalendarComponent', () => {
   let component: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
   let appointmentService: AppointmentService;
 
-  const mockAppointments = [
+  const mockAppointments: Appointment[] = [
     { id: 1, title: 'Task Review', start: new Date(), end: new Date(new Date().getTime() + 60 * 60 * 1000) },
     { id: 2, title: 'Offer the job to Przemyslaw', start: new Date(), end: new Date(new Date().getTime() + 60 * 60 * 1000) },
   ];
@@ -65,13 +66,13 @@ describe('CalendarComponent', () => {
   });
 
   it('should update appointment on drop', () => {
-    const event: CdkDragDrop<any> = {
+    const event: CdkDragDrop<Appointment[]> = {
       previousIndex: 0,
       currentIndex: 0,
-      //@ts-ignore
+      //@ts-expect-error might correct later
       item: { data: mockAppointments[0] },
-      container: {} as any,
-      previousContainer: {} as any,
+      container: {} as CdkDragDrop<Appointment[]>['container'],
+      previousContainer: {} as CdkDragDrop<Appointment[]>['previousContainer'],
       isPointerOverContainer: true,
       distance: { x: 0, y: 30 }
     };

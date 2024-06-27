@@ -1,15 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppointmentFormComponent } from './appointment-form.component';
 import { AppointmentService } from '../shared/services/appointment.service';
-import { ReactiveFormsModule, FormsModule, FormGroupDirective } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 
 describe('AppointmentFormComponent', () => {
   let component: AppointmentFormComponent;
