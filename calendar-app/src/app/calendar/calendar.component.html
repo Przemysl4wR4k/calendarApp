@@ -1,12 +1,12 @@
 <div class="calendar-container">
   <mat-card class="calendar-card">
-    <mat-calendar [selected]="selectedDate" (selectedChange)="dateChanged($event)"></mat-calendar>
+    <mat-calendar [selected]="selectedDate$ | async" (selectedChange)="onDateChange($event)"></mat-calendar>
   </mat-card>
   <div class="appointments-container">
     <div *ngFor="let hour of hours" class="hour-slot">
       <div class="hour">{{ hour }}:00</div>
       <div class="appointments" cdkDropList (cdkDropListDropped)="drop($event)">
-        <div *ngFor="let appointment of filteredAppointments | filterByHour: hour"
+        <div *ngFor="let appointment of (filteredAppointments$ | async) | filterByHour: hour"
              class="appointment"
              cdkDrag
              [cdkDragData]="appointment"

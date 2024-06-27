@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Appointment } from '../models/appointment.model';
 
 @Injectable({
@@ -14,6 +15,13 @@ export class AppointmentService {
 
   private appointmentsSubject: BehaviorSubject<Appointment[]> = new BehaviorSubject(this.appointments);
   public appointments$: Observable<Appointment[]> = this.appointmentsSubject.asObservable();
+
+  private selectedDateSubject: BehaviorSubject<Date> = new BehaviorSubject(new Date());
+  public selectedDate$: Observable<Date> = this.selectedDateSubject.asObservable();
+
+  public filteredAppointments$: Observable<Appointment[]> = combineLatest([this.appointments$, this.selectedDate$]).pipe(
+    map(([appointments, selectedDate]) => this.filterAppointments(appointments, selectedDate))
+  );
 
   constructor() {}
 
@@ -38,6 +46,23 @@ export class AppointmentService {
   deleteAppointment(id: number): void {
     this.appointments = this.appointments.filter(appointment => appointment.id !== id);
     this.appointmentsSubject.next(this.appointments);
+  }
+
+  setSelectedDate(date: Date): void {
+    this.selectedDateSubject.next(date);
+  }
+
+  private filterAppointments(appointments: Appointment[], selectedDate: Date): Appointment[] {
+    const selectedDateStart = new Date(selectedDate);
+    selectedDateStart.setHours(0, 0, 0, 0);
+    const selectedDateEnd = new Date(selectedDate);
+    selectedDateEnd.setHours(23, 59, 59, 999);
+
+    return appointments.filter(appointment => {
+      const startDate = new Date(appointment.start);
+      const endDate = new Date(appointment.end);
+      return startDate <= selectedDateEnd && endDate >= selectedDateStart;
+    });
   }
 
   private generateId(): number {
