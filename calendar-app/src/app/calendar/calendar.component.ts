@@ -44,14 +44,19 @@ export class CalendarComponent {
 
   drop(event: CdkDragDrop<Appointment[]>) {
     const appointment: Appointment = event.item.data;
-    const duration = new Date(appointment.end).getTime() - new Date(appointment.start).getTime();
-    appointment.start.setMinutes(appointment.start.getMinutes() + event.distance.y);
-    const newEnd = new Date(appointment.start.getTime() + duration);
+    const originalAppointment = this.appointmentService.getAppointmentById(appointment.id);
+    if (originalAppointment) {
+      const duration = new Date(originalAppointment.end).getTime() - new Date(originalAppointment.start).getTime();
+      const newStart = new Date(originalAppointment.start);
+      newStart.setMinutes(newStart.getMinutes() + event.distance.y);
+      const newEnd = new Date(newStart.getTime() + duration);
 
-    this.appointmentService.updateAppointment({
-      ...appointment,
-      end: newEnd
-    });
+      this.appointmentService.updateAppointment({
+        ...originalAppointment,
+        start: newStart,
+        end: newEnd
+      });
+    }
   }
 
   deleteAppointment(id: number) {

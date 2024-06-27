@@ -58,6 +58,10 @@ export class AppointmentService {
     return this.selectedDateSubject.getValue();
   }
 
+  getAppointmentById(id: number): Appointment | undefined {
+    return this.appointments.find(appointment => appointment.id === id);
+  }
+
   private filterAppointments(appointments: Appointment[], selectedDate: Date): Appointment[] {
     const selectedDateStart = new Date(selectedDate);
     selectedDateStart.setHours(0, 0, 0, 0);
